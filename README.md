@@ -236,6 +236,8 @@ Planned extensions include:
 
 ## Status
 
-**Portfolio MVP — active development.**
+**Working prototype**
 
-The current version focuses on AI-assisted verification planning rather than automatic RTL verification.
+The current version provides an end-to-end AI-assisted verification planning workflow with structured test generation, validation, JSON/CSV export, a Streamlit interface, automated tests, and CI.
+
+The project intentionally focuses on **human-reviewed verification planning** rather than autonomous RTL verification.
