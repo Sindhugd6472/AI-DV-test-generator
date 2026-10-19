@@ -11,6 +11,10 @@ This project converts a natural-language hardware requirement into a structured 
 
 It is designed as a **human-in-the-loop verification aid**: generated content is reviewed by an engineer before it is used in a real verification environment.
 
+## Demo
+
+![AI-Powered Design Verification Test Generator demo](docs/ai-dv-test-generator-demo.png)
+
 ## Project overview
 
 Design verification requires engineers to translate specifications into verification intent, tests, coverage goals, and assertions. This project explores how an LLM can assist that planning process while preserving engineering review and technical accountability.
