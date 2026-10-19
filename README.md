@@ -7,13 +7,21 @@
 
 **AI-assisted verification planning for hardware/IP requirements.**
 
-Turn a natural-language hardware requirement into a structured candidate verification plan containing test scenarios, priorities, expected behavior, functional-coverage ideas, and candidate assertion concepts.
+This project converts a natural-language hardware requirement into a structured candidate verification plan with test scenarios, priorities, expected behavior, functional-coverage ideas, and candidate assertion concepts.
 
-> The tool is intentionally human-in-the-loop: AI-generated verification content is a starting point for engineering review, not a substitute for protocol knowledge or signoff.
+It is designed as a **human-in-the-loop verification aid**: generated content is reviewed by an engineer before it is used in a real verification environment.
 
-## What it does
+## Project overview
 
-Given a requirement such as:
+Design verification requires engineers to translate specifications into verification intent, tests, coverage goals, and assertions. This project explores how an LLM can assist that planning process while preserving engineering review and technical accountability.
+
+The current MVP focuses on three goals:
+
+- convert requirements into structured verification scenarios
+- generate candidate coverage and assertion ideas
+- validate AI output before presenting or exporting it
+
+## Example input
 
 ```text
 A transfer starts when PSEL is asserted.
@@ -22,10 +30,12 @@ The transfer completes only when PREADY is high.
 PSLVERR indicates an error response.
 ```
 
-the tool can propose candidate scenarios such as:
+## Example generated scenarios
+
+The tool can propose candidate tests such as:
 
 - basic read/write transfer behavior
-- delayed PREADY and wait states
+- delayed PREADY and wait-state handling
 - setup-to-access sequencing
 - error-response handling
 - back-to-back transfers
@@ -37,7 +47,7 @@ Each generated test includes:
 | Field | Purpose |
 |---|---|
 | Test name | Short scenario identifier |
-| Objective | What behavior is being verified |
+| Objective | Behavior being verified |
 | Category | Positive, negative, boundary, error, stress, or coverage |
 | Priority | High, medium, or low |
 | Preconditions | Required setup |
@@ -75,22 +85,17 @@ Mock Provider   OpenAI Provider
       +--> CSV export
 ```
 
-## Why this project
+## Technical highlights
 
-Design verification begins long before simulation: engineers translate specifications into verification intent, test scenarios, assertions, and coverage goals.
-
-This project explores how an LLM can assist that workflow while keeping the verification engineer responsible for technical correctness.
-
-It demonstrates:
-
-- verification planning
-- coverage-driven verification thinking
-- assertion-based verification concepts
-- Python automation
-- structured AI-output validation
-- prompt engineering for an engineering workflow
-- Streamlit application development
-- CI-driven software quality
+- Python-based modular architecture
+- provider abstraction for offline and model-backed generation
+- Pydantic schema validation for structured AI output
+- Streamlit interface for interactive use
+- JSON and CSV export
+- pytest unit tests
+- GitHub Actions CI
+- verification-focused prompt construction
+- explicit assumptions and engineering guardrails
 
 ## Quick start
 
@@ -129,7 +134,7 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-The default provider is `mock`, so the project can be demonstrated without an API key.
+The application defaults to the deterministic `mock` provider, so it can be run without an API key.
 
 ## Optional model-backed mode
 
@@ -147,18 +152,18 @@ Then run:
 streamlit run app.py
 ```
 
-Never commit your `.env` file or API key.
+Never commit a `.env` file or API key.
 
-## Offline demo mode
+## Why mock mode is included
 
-The deterministic mock provider makes the project:
+The offline mock provider makes the project:
 
-- easy for recruiters to run
-- usable without external API costs
-- testable in CI
-- reproducible for demonstrations
+- reproducible without external services
+- easy to run during review
+- suitable for automated CI testing
+- usable without API cost or credentials
 
-The mock path exercises the same schema, validation, UI, and export pipeline as the model-backed path.
+It exercises the same schema, validation, UI, and export path as the model-backed flow.
 
 ## Project structure
 
@@ -188,14 +193,14 @@ AI-DV-test-generator/
 
 ## Engineering guardrails
 
-LLMs can hallucinate protocol behavior, invent unsupported corner cases, or produce invalid assertions. The project therefore:
+LLMs can hallucinate protocol behavior, invent unsupported corner cases, or produce invalid assertions. This project therefore:
 
 - preserves the original requirement
-- makes assumptions explicit
+- records assumptions explicitly
 - validates output against a strict schema
 - labels assertion ideas as candidates
 - requires human engineering review
-- defaults to an offline mock provider
+- defaults to an offline provider
 - warns against sending confidential specifications to external services
 
 **Do not paste proprietary employer specifications, internal IP documentation, or confidential design information into this project or any external model.**
@@ -224,10 +229,6 @@ Planned extensions include:
 - simulator feedback
 - regression-result feedback
 - local-model support
-
-## Interview explanation
-
-> I built an AI-assisted design verification planning tool that converts natural-language hardware requirements into structured verification scenarios, coverage ideas, and candidate assertion concepts. I designed a provider layer with both offline and model-backed modes, added Pydantic schema validation, built a Streamlit interface, added JSON/CSV export, and set up automated tests in GitHub Actions. I intentionally kept a human-review step because AI-generated verification content can be technically incorrect.
 
 ## Status
 
