@@ -19,7 +19,7 @@ It is designed as a **human-in-the-loop verification aid**: generated content is
 
 Design verification requires engineers to translate specifications into verification intent, tests, coverage goals, and assertions. This project explores how an LLM can assist that planning process while preserving engineering review and technical accountability.
 
-The current MVP focuses on three goals:
+The current version focuses on three goals:
 
 - convert requirements into structured verification scenarios
 - generate candidate coverage and assertion ideas
